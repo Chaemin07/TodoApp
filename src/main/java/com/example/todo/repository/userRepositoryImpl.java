@@ -18,14 +18,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class ScheduleRepositoryImpl implements ScheduleRepository {
+public class userRepositoryImpl implements userRepository {
 
 
     // JdbcTemplateMemoRepository
     private final JdbcTemplate jdbcTemplate;
 
     // 생성자 주입
-    public ScheduleRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public userRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

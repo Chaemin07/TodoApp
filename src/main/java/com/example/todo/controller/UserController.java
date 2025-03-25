@@ -2,38 +2,36 @@ package com.example.todo.controller;
 
 import com.example.todo.dto.userdto.UserRequestDto;
 import com.example.todo.dto.userdto.UserResponseDto;
-import com.example.todo.service.ScheduleService;
-import org.apache.coyote.Response;
+import com.example.todo.service.userService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/schedule")
-public class ScheduleController {
+@RequestMapping("/schedule/user")
+public class UserController {
 
-    private final ScheduleService scheduleService;
+    private final userService userService;
 
-    public ScheduleController(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
+    public UserController(userService userService) {
+        this.userService = userService;
     }
 
-    @PostMapping("/user")
+    @PostMapping
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto requestDto) {
-        return new ResponseEntity<>(scheduleService.saveUser(requestDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.saveUser(requestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public List<UserResponseDto> findAllUsers() {
-        return scheduleService.getAllUsers();
+        return userService.getAllUsers();
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id) {
-        return new ResponseEntity<>(scheduleService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
 
     // 사용자 정보 수정(부분 수정)
@@ -46,17 +44,17 @@ public class ScheduleController {
 //    }
 
     // 사용자 정보 수정(일괄 수정)
-    @PutMapping("/user/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<UserResponseDto> updateUser(
             @PathVariable Long id,
             @RequestBody UserRequestDto dto
     ) {
-        return new ResponseEntity<>(scheduleService.updateUser(id,dto),HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(id,dto),HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        scheduleService.deleteUser(id);
+        userService.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
