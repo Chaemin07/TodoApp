@@ -3,7 +3,6 @@ package com.example.todo.repository;
 import com.example.todo.dto.userdto.UserResponseDto;
 import com.example.todo.entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -14,9 +13,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ScheduleRepositoryImpl implements ScheduleRepository {
+
+
     // JdbcTemplateMemoRepository
     private final JdbcTemplate jdbcTemplate;
 
@@ -44,10 +46,27 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
     @Override
     public List<UserResponseDto> getAllUsers() {
-        return jdbcTemplate.query("select * from User", userRowMapper());
+        return jdbcTemplate.query("select * from User", userRowMapper1());
     }
 
-    private RowMapper<UserResponseDto> userRowMapper() {
+
+
+    @Override
+    public Optional<User> getUserById(Long userId) {
+        List<User> result = jdbcTemplate.query("select *from User where userId = ?", userRowMapper2(), userId);
+        if (result.isEmpty()) {
+            return Optional.empty();
+        }
+        return result.stream().findAny();
+    }
+
+    @Override
+    public int deleteUser(Long id) {
+        // 삭제된 행의 수 리턴
+        return jdbcTemplate.update("delete from User where userId =?",id);
+    }
+
+    private RowMapper<UserResponseDto> userRowMapper1() {
         return new RowMapper<UserResponseDto>() {
             @Override
             public UserResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -59,6 +78,14 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 );
             }
         };
+    }
+
+    private RowMapper<User> userRowMapper2() {
+        return (rs, rowNum) -> new User(
+                rs.getLong("userId"),
+                rs.getString("name"),
+                rs.getString("email")
+        );
     }
 
 }

@@ -18,6 +18,12 @@ public class User {
         this.userEmail = email;
     }
 
+    public User(Long userId, String name, String email) {
+        this.userId = userId;
+        this.userName = name;
+        this.userEmail = email;
+    }
+
     public void updatePassword(String password) {
         this.password = password;
     }

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/schedule")
@@ -19,15 +20,31 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    @PostMapping()
+    @PostMapping("/user")
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto requestDto) {
         return new ResponseEntity<>(scheduleService.saveUser(requestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping()
+    @GetMapping("/user")
     public List<UserResponseDto> findAllUsers() {
         return scheduleService.getAllUsers();
     }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<UserResponseDto> findUserById(@PathVariable Long id) {
+        return new ResponseEntity<>(scheduleService.getUserById(id), HttpStatus.OK);
+    }
+
+    // 사용자 정보 수정(부분 수정)
+
+    // 사용자 정보 수정(일괄 수정)
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+        scheduleService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 //    @PostMapping()
 //    public ResponseEntity<ScheduleResponseDto> createSchedule
