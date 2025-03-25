@@ -24,8 +24,9 @@ repositories {
 }
 
 dependencies {
-    // MySQL 8.0.41 버전
-    implementation 'mysql:mysql-connector-java'
+
+    // MySQL
+    implementation 'mysql:mysql-connector-java:8.0.28'
     // JDBC Template
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 

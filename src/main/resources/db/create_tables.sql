@@ -11,6 +11,7 @@ CREATE TABLE User
     email    VARCHAR(255) NOT NULL UNIQUE
 );
 
+-- 일정 테이블
 CREATE TABLE Task
 (
     taskId      BIGINT AUTO_INCREMENT PRIMARY KEY,

@@ -1,10 +1,15 @@
-package com.example.todo.dto.scheduledto;
+package com.example.todo.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public class ScheduleDto {
+@Getter
+@AllArgsConstructor
+public class Task {
 
-    private Long postId;            // 일정 Id
+    private Long taskId;            // 일정 Id
     private Long userId;            // 작성자 Id
     private String title;           // 제목   할 일?
     private String contents;        // 내용
