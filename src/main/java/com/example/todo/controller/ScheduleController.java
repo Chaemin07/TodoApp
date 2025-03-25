@@ -3,6 +3,7 @@ package com.example.todo.controller;
 import com.example.todo.dto.userdto.UserRequestDto;
 import com.example.todo.dto.userdto.UserResponseDto;
 import com.example.todo.service.ScheduleService;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +37,22 @@ public class ScheduleController {
     }
 
     // 사용자 정보 수정(부분 수정)
+//    @PatchMapping("/user/{id}")
+//    public ResponseEntity<UserResponseDto> updateTask(
+//            @PathVariable Long id,
+//            @RequestBody UserRequestDto dto
+//    ) {
+////        return new ResponseEntity<>(scheduleService.updateTask(id, dto), HttpStatus.OK);
+//    }
 
     // 사용자 정보 수정(일괄 수정)
+    @PutMapping("/user/{id}")
+    public ResponseEntity<UserResponseDto> updateUser(
+            @PathVariable Long id,
+            @RequestBody UserRequestDto dto
+    ) {
+        return new ResponseEntity<>(scheduleService.updateUser(id,dto),HttpStatus.OK);
+    }
 
     @DeleteMapping("/user/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {

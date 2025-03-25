@@ -15,5 +15,5 @@ public interface ScheduleService {
 
     void deleteUser(Long id);
 
-    UserResponseDto updateTask(Long id, UserRequestDto dto);
+    UserResponseDto updateUser(Long id, UserRequestDto dto);
 }

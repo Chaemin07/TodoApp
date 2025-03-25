@@ -2,11 +2,13 @@ package com.example.todo.repository;
 
 import com.example.todo.dto.userdto.UserResponseDto;
 import com.example.todo.entity.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -66,6 +68,21 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return jdbcTemplate.update("delete from User where userId =?",id);
     }
 
+    @Override
+    public int updateUser(User updatedUser) {
+        return jdbcTemplate.update("update User set name =?, password =?, email=? where userId=?",
+                updatedUser.getUserName(),
+                updatedUser.getPassword(),
+                updatedUser.getUserEmail(),
+                updatedUser.getUserId());
+    }
+
+    @Override
+    public User findUserByIdOrElseThrow(Long id) {
+        List<User> result = jdbcTemplate.query("select *from User where user.userId=?", userRowMapper2(), id);
+        return result.stream().findAny().orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id));
+    }
+
     private RowMapper<UserResponseDto> userRowMapper1() {
         return new RowMapper<UserResponseDto>() {
             @Override
@@ -84,6 +101,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return (rs, rowNum) -> new User(
                 rs.getLong("userId"),
                 rs.getString("name"),
+                rs.getString("password"),
                 rs.getString("email")
         );
     }

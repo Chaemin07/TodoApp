@@ -16,4 +16,8 @@ public interface ScheduleRepository {
     Optional<User> getUserById(Long userId);
 
     int deleteUser(Long id);
+
+    int updateUser(User updatedUser);
+
+    User findUserByIdOrElseThrow(Long id);
 }
