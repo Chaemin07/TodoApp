@@ -81,6 +81,13 @@ public class TaskRepositoryImpl implements TaskRepository {
         return jdbcTemplate.update("delete from Task where userId= ? and taskId=?", userId, taskId);
     }
 
+    @Override
+    public int updateTask(Task updatedTask) {
+        return jdbcTemplate.update("update Task set title =?, contents =?, startTime =?, endTime =?, updatedAt = ?" +
+                        "where taskId = ? and userId=?", updatedTask.getTitle(), updatedTask.getContents(), updatedTask.getStartTime(), updatedTask.getEndTime(),
+                updatedTask.getUpdatedAt(), updatedTask.getTaskId(), updatedTask.getUserId());
+    }
+
     private RowMapper<Task> taskRowMapper2() {
         return (rs, rowNum) -> new Task(
                 rs.getLong("taskId"),

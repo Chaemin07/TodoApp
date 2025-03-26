@@ -57,7 +57,7 @@ public class userServiceImpl implements userService {
 
         User findUser = userRepository.getUserById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "존재하지 않는 사용자입니다."));
-
+        // 패스워드 검증
         isValidPassword(findUser, dto);
         User updatedUser = new User(id, dto);
         int updatedRow = userRepository.updateUser(updatedUser);
@@ -66,6 +66,11 @@ public class userServiceImpl implements userService {
         }
         User result = userRepository.findUserByIdOrElseThrow(id);
         return new UserResponseDto(id, result.getUserName(), result.getUserEmail());
+    }
+
+    @Override
+    public Optional<User> findUserEntityById(Long userId) {
+        return userRepository.getUserById(userId);
     }
 
     private boolean isValidPassword(User user, UserRequestDto dto) {
