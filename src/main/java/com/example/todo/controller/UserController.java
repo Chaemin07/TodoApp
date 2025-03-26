@@ -58,7 +58,4 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-
-//    @PostMapping()
-//    public ResponseEntity<ScheduleResponseDto> createSchedule
 }
