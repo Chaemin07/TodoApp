@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
         LocalDateTime endTime = dto.getEndTime() != null ?
                 dto.getEndTime() : day.atTime(23, 59, 59);
         // 종료시간보다 시작시간이 이전일때 오류
-        if (dto.getEndTime().isBefore(dto.getStartTime())) {
+        if (endTime.isBefore(startTime)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "입력이 올바르지 않습니다.");
         }
         Task task = new Task(dto.getUserId(), dto.getTitle(), dto.getContents(),
